@@ -7,10 +7,10 @@ class UserResponse(BaseModel):
     email: EmailStr
     phone_number: str | None
     date_of_birth: date
-    age: int # Это наше вычисляемое поле
+    age: int
 
     class Config:
-        from_attributes = True # Позволяет Pydantic читать данные из моделей SQLAlchemy
+        from_attributes = True
 
 
 class CardResponse(BaseModel):

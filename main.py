@@ -4,12 +4,10 @@ import models, database, schemas
 from datetime import date
 from pydantic import EmailStr, ValidationError
 
-# Создаем таблицы (в реальных проектах лучше использовать Alembic)
 models.Base.metadata.create_all(bind=database.engine)
 
 app = FastAPI()
 
-# Функция-зависимость для получения сессии БД
 def get_db():
     db = database.SessionLocal()
     try:
@@ -34,7 +32,7 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="User not found")
     
         
-    return user # FastAPI сам возьмет 'user', вычислит 'age' и превратит в JSON по схеме
+    return user
 
 @app.post("/cards/")
 def create_card(owner_id: int, card_number: str, value: float, type: str, db: Session = Depends(get_db)):
@@ -59,5 +57,4 @@ def read_user_cards(user_id: int, db: Session = Depends(get_db)):
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")
     
-    return user.cards  # FastAPI сам превратит список карт в JSON по схеме
-
+    return user.cards
