@@ -17,6 +17,7 @@ services:
   # Контейнер с твоим FastAPI приложением
   app:
     build: .
+    restart: on-failure
     ports:
       - "8000:8000"
     depends_on:
