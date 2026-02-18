@@ -98,7 +98,11 @@ def payment(card_id: int, amount: float, db: Session = Depends(get_db)):
 @app.patch("/cards/{card_id}/transfer")
 def transfer_money(card_id: int, amount: float, target_card_id: int, db: Session = Depends(get_db)):
     source_card = db.query(models.Card).filter(models.Card.id == card_id).first() 
-    target_card = db.query(models.Card).filter(models.Card.id == target_card_id).first() 
+    target_card = db.query(models.Card).filter(models.Card.id == target_card_id).first()
+    source_card_type = db.query(models.Card).filter(models.Card.id == card_id).first().type
+    target_card_type = db.query(models.Card).filter(models.Card.id == target_card_id).first().type
+
+
     
     if source_card is None:
         raise HTTPException(status_code=404, detail="Source card not found")
@@ -108,6 +112,9 @@ def transfer_money(card_id: int, amount: float, target_card_id: int, db: Session
     
     if source_card.value < amount:
         raise HTTPException(status_code=400, detail="Insufficient funds in source card")
+    
+    if source_card_type != target_card_type:
+        raise HTTPException(status_code=400, detail="Different currencys")
         
     source_card.value -= amount
     target_card.value += amount
@@ -116,3 +123,4 @@ def transfer_money(card_id: int, amount: float, target_card_id: int, db: Session
     db.refresh(source_card)
     db.refresh(target_card)
     return {"message": f"Transferred {amount} from card {card_id} to card {target_card_id}"}
+
