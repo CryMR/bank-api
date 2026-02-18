@@ -23,6 +23,11 @@ def create_user(name: str, email: EmailStr, date_of_birth: date, phone_number: s
     db.refresh(db_user)
     return db_user
 
+@app.get("/users/", response_model=list[schemas.UserResponse])
+def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    users = db.query(models.User).offset(skip).limit(limit).all()
+    return users
+
 
 @app.get("/users/{user_id}", response_model=schemas.UserResponse)
 def read_user(user_id: int, db: Session = Depends(get_db)):
