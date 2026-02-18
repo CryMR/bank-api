@@ -1,0 +1,31 @@
+# Виртуальное окружение (обязательно исключить, оно весит много и несовместимо с Linux внутри Docker)
+.venv/
+venv/
+env/
+
+# Кэш Python
+**/__pycache__/
+*.py[cod]
+*$py.class
+
+# Настройки редактора
+.vscode/
+.idea/
+
+# Локальные переменные окружения (секреты не должны быть в образе)
+*.env
+
+# Git
+.git
+.gitignore
+
+# Docker (не нужно копировать Docker-файлы внутрь самого себя)
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# Прочее
+README.md
+.pytest_cache/
+migrations/
+alembic.ini
