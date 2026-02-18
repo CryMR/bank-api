@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  # Контейнер с базой данных
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: karamatsu
+      POSTGRES_DB: bankdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Контейнер с твоим FastAPI приложением
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      # Ссылка на базу данных (используем имя сервиса 'db' как хост)
+      DATABASE_URL: postgresql://postgres:karamatsu@db:5432/bankdb
+
+volumes:
+  postgres_data:
