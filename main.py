@@ -58,3 +58,61 @@ def read_user_cards(user_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="User not found")
     
     return user.cards
+
+@app.put("/cards/{card_id}")
+def set_card_value(card_id: int, new_value: float, db: Session = Depends(get_db)):
+    card = db.query(models.Card).filter(models.Card.id == card_id).first() 
+    if card is None:
+        raise HTTPException(status_code=404, detail="Card not found")
+    
+    card.value = new_value
+    db.commit()
+    db.refresh(card)
+    return card
+
+@app.patch("/cards/{card_id}/upcoming")
+def upcoming_money(card_id: int, amount: float, db: Session = Depends(get_db)):
+    card = db.query(models.Card).filter(models.Card.id == card_id).first() 
+    if card is None:
+        raise HTTPException(status_code=404, detail="Card not found")
+    
+    card.value += amount
+    db.commit()
+    db.refresh(card)
+    return card
+
+@app.patch("/cards/{card_id}/payment")
+def payment(card_id: int, amount: float, db: Session = Depends(get_db)):
+    card = db.query(models.Card).filter(models.Card.id == card_id).first() 
+    if card is None:
+        raise HTTPException(status_code=404, detail="Card not found")
+    
+    if card.value < amount:
+        raise HTTPException(status_code=400, detail="Insufficient funds")
+        
+    card.value -= amount
+    db.commit()
+    db.refresh(card)
+    return card
+
+@app.patch("/cards/{card_id}/transfer")
+def transfer_money(card_id: int, amount: float, target_card_id: int, db: Session = Depends(get_db)):
+    source_card = db.query(models.Card).filter(models.Card.id == card_id).first() 
+    target_card = db.query(models.Card).filter(models.Card.id == target_card_id).first() 
+    
+    if source_card is None:
+        raise HTTPException(status_code=404, detail="Source card not found")
+    
+    if target_card is None:
+        raise HTTPException(status_code=404, detail="Target card not found")
+    
+    if source_card.value < amount:
+        raise HTTPException(status_code=400, detail="Insufficient funds in source card")
+        
+    source_card.value -= amount
+    target_card.value += amount
+    
+    db.commit()
+    db.refresh(source_card)
+    db.refresh(target_card)
+    return {"message": f"Transferred {amount} from card {card_id} to card {target_card_id}"}
