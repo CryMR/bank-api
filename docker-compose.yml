@@ -1,7 +1,4 @@
-version: '3.8'
-
 services:
-  # Контейнер с базой данных
   db:
     image: postgres:15-alpine
     restart: always
@@ -13,18 +10,31 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - my_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d bankdb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    
 
-  # Контейнер с твоим FastAPI приложением
   app:
     build: .
     restart: on-failure
     ports:
       - "8000:8000"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
-      # Ссылка на базу данных (используем имя сервиса 'db' как хост)
       DATABASE_URL: postgresql://postgres:karamatsu@db:5432/bankdb
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    driver: bridge
 
 volumes:
   postgres_data:
