@@ -2,4 +2,4 @@ fastapi[standard]
 pydantic
 uvicorn
 sqlalchemy
-psycopg2-binary  # В докере удобнее использовать -binary версию
+psycopg2-binary

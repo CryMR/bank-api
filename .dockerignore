@@ -1,30 +1,30 @@
-# Виртуальное окружение (обязательно исключить, оно весит много и несовместимо с Linux внутри Docker)
+#virtual environments
 .venv/
 venv/
 env/
 
-# Кэш Python
+#pycache
 **/__pycache__/
 *.py[cod]
 *$py.class
 
-# Настройки редактора
+#vscode
 .vscode/
 .idea/
 
-# Локальные переменные окружения (секреты не должны быть в образе)
+#secrets
 *.env
 
-# Git
+#git
 .git
 .gitignore
 
-# Docker (не нужно копировать Docker-файлы внутрь самого себя)
+#dockerfiles
 Dockerfile
 .dockerignore
 docker-compose.yml
 
-# Прочее
+#other
 README.md
 .pytest_cache/
 migrations/
