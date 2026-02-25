@@ -16,6 +16,16 @@ The project is built using the following modern tools:
 
 ---
 
+## 📝```.env``` example
+
+```
+DB_USER=example
+DB_PASSWORD=example
+DB_NAME=example
+
+DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
+```
+
 ## 📂 Project Structure
 
 ```text
