@@ -3,9 +3,9 @@ services:
     image: postgres:15-alpine
     restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: karamatsu
-      POSTGRES_DB: bankdb
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
     ports:
       - "5432:5432"
     volumes:
@@ -13,7 +13,7 @@ services:
     networks:
       - my_network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d bankdb"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -28,13 +28,14 @@ services:
       db:
         condition: service_healthy
     environment:
-      DATABASE_URL: postgresql://postgres:karamatsu@db:5432/bankdb
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
     networks:
       - my_network
 
 networks:
   my_network:
     driver: bridge
+    external: true
 
 volumes:
   postgres_data:
