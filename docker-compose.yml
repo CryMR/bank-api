@@ -28,14 +28,14 @@ services:
       db:
         condition: service_healthy
     environment:
-      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
+      DATABASE_URL: ${DATABASE_URL}
+
     networks:
       - my_network
 
 networks:
   my_network:
     driver: bridge
-    external: true
 
 volumes:
   postgres_data:
