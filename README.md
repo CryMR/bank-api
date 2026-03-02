@@ -16,8 +16,18 @@ The project is built using the following modern tools:
 
 ---
 
-## 📝```.env``` example
+## 📄 Setup Instructions
 
+**1. Clone the repository:**
+```
+git clone https://github.com/your-username/your-project.git
+cd your-project
+```
+
+**2. Create a ```.env``` file:**
+In the root directory of the project, create a file named .env to store your environment variables. This file will help configure the database connection settings.
+
+Here's an example ```.env``` file:
 ```
 DB_USER=example
 DB_PASSWORD=example
@@ -25,10 +35,25 @@ DB_NAME=example
 
 DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
 ```
+* ```DB_USER```: Your PostgreSQL database username.
+* ```DB_PASSWORD```: Your PostgreSQL database password.
+* ```DB_NAME```: The name of your PostgreSQL database.
+* ```DATABASE_URL```: The complete connection URL for your PostgreSQL database.
+
+**3. Start the application using Docker Compose:**
+```
+docker-compose up --build
+```
+This Will:
+* Build the Docker images if needed.
+* Start the FastAPI app and PostgreSQL in separate containers.
+
+**4. Acces the app:**
+After the containers are up and running, you can access the FastAPI application at ```http://localhost:8000```.
 
 ## 📂 Project Structure
 
-```text
+```
 .
 ├── app/
 │   ├── main.py          # Application entry point
@@ -36,4 +61,7 @@ DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
 │   ├── schemas.py       # Pydantic validation schemas
 │   └── database.py      # Database connection and session management
 ├── requirements.txt     # Project dependencies
-└── .env                 # Environment variables (Database URLs, API keys)
+├── .env                 # Environment variables
+├── Dockerfile           # Dockerfile for building the FastAPI app image
+└── docker-compose.yml   # Docker Compose configuration for multi-container setup
+```
