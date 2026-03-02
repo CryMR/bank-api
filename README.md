@@ -29,7 +29,7 @@ git clone https://github.com/CryMR/bank-api && cd bank-api
 ```
 
 **2. Create a ```.env``` file:**
-In the root directory of the project, create a file named .env to store your environment variables. This file will help configure the database connection settings.
+In the root directory of the project, create a file named ```.env``` to store your environment variables. This file will help configure the database connection settings.
 
 Here's an example ```.env``` file:
 ```
