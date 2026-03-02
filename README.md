@@ -42,7 +42,7 @@ DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
 
 **3. Start the application using Docker Compose:**
 ```
-docker-compose up --build
+docker compose up --build
 ```
 This Will:
 * Build the Docker images if needed.
