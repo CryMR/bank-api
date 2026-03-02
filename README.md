@@ -20,8 +20,12 @@ The project is built using the following modern tools:
 
 **1. Clone the repository:**
 ```
-git clone https://github.com/your-username/your-project.git
-cd your-project
+git clone https://github.com/CryMR/bank-api
+cd bank-api
+```
+or
+```
+git clone https://github.com/CryMR/bank-api && cd bank-api
 ```
 
 **2. Create a ```.env``` file:**
